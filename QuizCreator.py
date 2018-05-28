@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog
-import os, json, sys
+import os, json, sys, random, time
 from num2words import num2words
 
 window = tk.Tk()
@@ -20,6 +20,7 @@ Question_List = {}
 data = {}
 load_data = ''
 correct_ans_int = 0
+questionName = ''
 
 # I.E. "One" in Questions_Two is a variable and corresponds to "One" in Questions
 
@@ -40,7 +41,8 @@ class Widget():
         self.questions[self.indexNum].config(width = 54)
 
         def destroy(event, var):
-            global Question_List
+            global Question_List, questionName
+            questionName = var.get()
             Question_List[self.indexNum + 1] = var.get()
             self.questions[self.indexNum].config(text = var.get().title())
             var.destroy()
@@ -59,6 +61,7 @@ class Widget():
             temporary = 'Question_' + str(self.indexNum + 1)
             data[temporary] = []
             data[temporary].append({
+                'Title' : questionName,
                 'Answer_One' : Q1.get(),
                 'Answer_Two' : Q2.get(),
                 'Answer_Three' : Q3.get(),
@@ -154,7 +157,46 @@ def create_widget():
     AddWidget.place_configure(y = YforAdd)
 #When Done...
 def finish_edits():
-    pass
+    questionplay = []
+    ready = tk.Toplevel() 
+    newx = 0
+    timelimit = 5 #WIP
+
+    ready.title('Play Quiz - ' + windowTitle)
+    ready.geometry('500x500')
+    ready.resizable(False, False)
+    ready.attributes("-topmost", True)
+    ready.configure(background = 'thistle4')
+
+    timeset = tk.Label(ready, text = str(timelimit), relief = 'raised')
+    timeset.place(x = 460, y = 20)
+
+    with open(path + '/' + windowTitle + '.json', 'r') as toPlay:
+        playData = json.load(toPlay)
+        for x in range(len(playData) - 1):
+            questionplay.append('Question_' + str(x + 1))
+        random.shuffle(questionplay)
+
+        def checkifCorrect(ansNum):
+            if ansNum == playData[questionplay[newx]][0]['Correct']:
+                questionplay.pop(0)
+                newQ()
+
+        centeredQ = tk.Label(ready, text = playData[questionplay[newx]][0]['Title'], relief = 'raised')
+        centeredQ.place(relx = 0.5, y = 80, anchor = 'center')
+        centeredQ.config(height = 3)
+
+        def newQ():
+            centeredQ.config(text = playData[questionplay[newx]][0]['Title'])
+
+        Ans1 = tk.Button(ready, text = playData[questionplay[newx]][0]['Answer_One'], command = lambda: checkifCorrect(1))
+        Ans2 = tk.Button(ready, text = playData[questionplay[newx]][0]['Answer_Two'], command = lambda: checkifCorrect(2))
+        Ans3 = tk.Button(ready, text = playData[questionplay[newx]][0]['Answer_Three'], command = lambda: checkifCorrect(3))
+        Ans4 = tk.Button(ready, text = playData[questionplay[newx]][0]['Answer_Four'], command = lambda: checkifCorrect(4))
+
+        #WIP
+
+
 #Import Files
 def import_file():
     global windowTitle, new
@@ -163,6 +205,7 @@ def import_file():
         newdata = json.load(newfile)
         windowTitle = newdata['NameOfFile'][0]
         #find way to create widget for Qs in JSON, and modify contents of widgets
+        #WIP
     window.title('QuizCreator - ' + windowTitle)
     new.destroy()
 
@@ -203,6 +246,7 @@ Present.place(x = 232, y = 770)
 
 #Import or Continue? First Window
 new = tk.Toplevel()
+new.title('Select Option')
 new.geometry('400x300+500+500')
 new.resizable(False, False)
 new.configure(background = 'sienna4')
