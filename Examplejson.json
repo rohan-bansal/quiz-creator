@@ -1,0 +1,23 @@
+{
+  "NameOfFile": [
+    "Examplejson"
+  ],
+  "Question_1": [
+    {
+      "Answer_Two": "Rohan",
+      "Answer_Three": "Someone",
+      "Answer_Four": "IDK",
+      "Answer_One": "-->",
+      "Correct": "2"
+    }
+  ],
+  "Question_2": [
+    {
+      "Answer_Two": "False",
+      "Answer_Three": "",
+      "Answer_Four": "",
+      "Answer_One": "True",
+      "Correct": "1"
+    }
+  ]
+}
