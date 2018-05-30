@@ -8,7 +8,8 @@
       "Answer_Three": "Someone",
       "Answer_Four": "IDK",
       "Answer_One": "-->",
-      "Correct": "2"
+      "Correct": "2",
+      "Title" : "Who Created This Program?"
     }
   ],
   "Question_2": [
@@ -17,7 +18,8 @@
       "Answer_Three": "",
       "Answer_Four": "",
       "Answer_One": "True",
-      "Correct": "1"
+      "Correct": "1",
+      "Title" : "Boolean Question"
     }
   ]
 }
