@@ -16,3 +16,8 @@
 - Import existing quizzes
 - "Play" the quiz
 - Finishing touches (style)
+
+# Notice
+
+- uninstalled module num2words needed for the program to work
+- install using `pip3 install num2words`
