@@ -1,7 +1,9 @@
 import tkinter as tk
 from tkinter import filedialog
-import os, json, sys, random, time
+import os, json, sys, random, time, webbrowser
 from num2words import num2words
+
+# NOTICE MODULE num2words IS NEEDED
 
 window = tk.Tk()
 window.geometry('500x800+500+500')
@@ -21,6 +23,8 @@ data = {}
 load_data = ''
 correct_ans_int = 0
 questionName = ''
+correctans = 0
+incorrectans = 0
 
 # I.E. "One" in Questions_Two is a variable and corresponds to "One" in Questions
 
@@ -162,13 +166,15 @@ def finish_edits():
     newx = 0
     timelimit = 5 #WIP
 
+
     ready.title('Play Quiz - ' + windowTitle)
     ready.geometry('500x500')
     ready.resizable(False, False)
     ready.attributes("-topmost", True)
-    ready.configure(background = 'thistle4')
+    ready.configure(background = 'gray20')
 
-    timeset = tk.Label(ready, text = str(timelimit), relief = 'raised')
+    timeset = tk.Label(ready, text = str(timelimit), relief = 'raised', background = 'firebrick', fg = 'white')
+    timeset.config(width = 2, height = 2)
     timeset.place(x = 460, y = 20)
 
     with open(path + '/' + windowTitle + '.json', 'r') as toPlay:
@@ -177,24 +183,63 @@ def finish_edits():
             questionplay.append('Question_' + str(x + 1))
         random.shuffle(questionplay)
 
-        def checkifCorrect(ansNum):
-            if ansNum == playData[questionplay[newx]][0]['Correct']:
+        def checkifCorrect(ansNum): #WIP
+            global correctans, incorrectans
+            if ansNum == int(playData[questionplay[newx]][0]['Correct']):
+                correctans += 1
                 questionplay.pop(0)
-                newQ()
+                if len(questionplay) == 0:
+                    Ans1.destroy()
+                    Ans2.destroy()
+                    Ans3.destroy()
+                    Ans4.destroy()
+                    centeredQ.config(text = 'You got {0}\n\n{1} Correct, {2} Incorrect'.format(str((correctans / (correctans + incorrectans)) * 100) + '%', correctans, incorrectans))
+                    centeredQ.config(width = 20, height = 4)
+                    time.sleep(0.1)
+                    #ready.destroy()
+                else:
+                    newQ()
+            else:
+                incorrectans += 1
+                questionplay.pop(0)
+                if len(questionplay) == 0:
+                    Ans1.destroy()
+                    Ans2.destroy()
+                    Ans3.destroy()
+                    Ans4.destroy()
+                    centeredQ.config(text = 'You got {0}\n\n{1} Correct, {2} Incorrect'.format(str((correctans / (correctans + incorrectans)) * 100) + '%', correctans, incorrectans))
+                    centeredQ.config(width = 20, height = 4)
+                    time.sleep(0.1)
+                    #ready.destroy()
+                else:
+                    newQ()
 
-        centeredQ = tk.Label(ready, text = playData[questionplay[newx]][0]['Title'], relief = 'raised')
+
+        centeredQ = tk.Label(ready, text = playData[questionplay[newx]][0]['Title'], relief = 'raised', background = 'dark slate gray', fg = 'ivory')
         centeredQ.place(relx = 0.5, y = 80, anchor = 'center')
-        centeredQ.config(height = 3)
+        centeredQ.config(height = 2)
 
         def newQ():
             centeredQ.config(text = playData[questionplay[newx]][0]['Title'])
+            Ans1.config(text = playData[questionplay[newx]][0]['Answer_One'])
+            Ans2.config(text = playData[questionplay[newx]][0]['Answer_Two'])
+            Ans3.config(text = playData[questionplay[newx]][0]['Answer_Three'])
+            Ans4.config(text = playData[questionplay[newx]][0]['Answer_Four'])
 
         Ans1 = tk.Button(ready, text = playData[questionplay[newx]][0]['Answer_One'], command = lambda: checkifCorrect(1))
         Ans2 = tk.Button(ready, text = playData[questionplay[newx]][0]['Answer_Two'], command = lambda: checkifCorrect(2))
         Ans3 = tk.Button(ready, text = playData[questionplay[newx]][0]['Answer_Three'], command = lambda: checkifCorrect(3))
         Ans4 = tk.Button(ready, text = playData[questionplay[newx]][0]['Answer_Four'], command = lambda: checkifCorrect(4))
 
-        #WIP
+        Ans1.config(width = 28, height = 7)
+        Ans2.config(width = 28, height = 7)
+        Ans3.config(width = 28, height = 7)
+        Ans4.config(width = 28, height = 7)
+
+        Ans1.place(x = 0, y = 200)
+        Ans2.place(x = 250, y = 200)
+        Ans3.place(x = 0, y = 310)
+        Ans4.place(x = 250, y = 310)
 
 
 #Import Files
@@ -238,22 +283,29 @@ def newfilecreation(item, item_2, root):
 
 #Buttons on Main
 AddWidget = tk.Button(window, text = u"\u2795", highlightbackground = 'sienna', command = create_widget)
-Present = tk.Button(window, text = 'Finish', command = finish_edits)
+Present = tk.Button(window, text = 'Save&Play', command = finish_edits)
 
 AddWidget.place(x = 232, y = YforAdd)
-Present.place(x = 232, y = 770)
-
+Present.place(x = 222, y = 770.)
 
 #Import or Continue? First Window
 new = tk.Toplevel()
 new.title('Select Option')
-new.geometry('400x300+500+500')
+new.geometry('430x300+500+500')
 new.resizable(False, False)
 new.configure(background = 'sienna4')
 new.attributes("-topmost", True)
 
 Import = tk.Button(new, text = 'Import File', command = import_file)
 Newfile = tk.Button(new, text = 'New File',  command = lambda: newfilecreation(Newfile, Import, new))
+Help = tk.Text(new, height = 3, borderwidth = 0, relief = 'raised', background = 'dark slate gray', cursor = 'hand2')
+Help.tag_configure('center', justify = 'center')
+Help.insert(1.0, 'For help, go to\nhttps://github.com/Rohan-Bansal/quiz-creator/wiki')
+Help.tag_add("center", "1.0", "end")
+Help.configure(state="disabled")
+
+Help.place(relx = 0.5, anchor = 'n')
 Import.place(x = 100, y = 100)
 Newfile.place(x = 200, y = 100)
+
 window.mainloop()
