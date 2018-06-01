@@ -14,8 +14,6 @@
 **WIP Features**
 
 - Import existing quizzes
-- "Play" the quiz
-- Finishing touches (style)
 
 # Notice
 
