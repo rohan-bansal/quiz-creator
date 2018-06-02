@@ -17,4 +17,4 @@
 
 # Notice
 
-- Since the module num2words is needed for the program to work, if the computer does not have it installed, the program will install if for you. 
+- Since the module `num2words` is needed for the program to work, if the computer does not have it installed, the program will install it for you. 
