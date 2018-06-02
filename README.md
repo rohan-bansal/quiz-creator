@@ -9,7 +9,7 @@
 - Create new quizzes
 - Import existing quizzes
 - Use the questions to study
-- Edit questions to have four answer choices
+- Edit questions to have four answer choices (or less)
 - "Play" the quiz
 - Answers are stored in a JSON file, easily readable
 
