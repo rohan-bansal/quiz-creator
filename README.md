@@ -2,6 +2,8 @@
 
 **A program that can be used as a desktop application version of online quizmaking tools, such as Kahoot, Quizlet, and Peardeck.**
 
+*Progress Report:* **82% complete**
+
 # Features
 
 - Create new quizzes
