@@ -17,5 +17,5 @@
 
 # Notice
 
-- uninstalled module num2words needed for the program to work
+- install module num2words as it is needed for the program to work
 - install using `pip3 install num2words`
