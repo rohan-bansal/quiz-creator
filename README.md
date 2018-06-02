@@ -17,5 +17,4 @@
 
 # Notice
 
-- install module num2words as it is needed for the program to work
-- install using `pip3 install num2words`
+- Since the module num2words is needed for the program to work, if the computer does not have it installed, the program will install if for you. 
