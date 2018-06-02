@@ -1,9 +1,14 @@
 import tkinter as tk
 from tkinter import filedialog
-import os, json, sys, random, time, webbrowser
-from num2words import num2words
+import os, json, sys, random, time
 
-# NOTICE MODULE num2words IS NEEDED
+try:
+    from num2words import num2words
+except ImportError:
+    print('\nDependencies not installed, installing them now...\n')
+    import subprocess
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--user', 'num2words==0.5.6'])
+    from num2words import num2words
 
 window = tk.Tk()
 window.geometry('500x800+500+500')
@@ -166,7 +171,6 @@ def finish_edits():
     newx = 0
     timelimit = 5 #WIP
 
-
     ready.title('Play Quiz - ' + windowTitle)
     ready.geometry('500x500')
     ready.resizable(False, False)
@@ -196,7 +200,6 @@ def finish_edits():
                     centeredQ.config(text = 'You got {0}\n\n{1} Correct, {2} Incorrect'.format(str((correctans / (correctans + incorrectans)) * 100) + '%', correctans, incorrectans))
                     centeredQ.config(width = 20, height = 4)
                     time.sleep(0.1)
-                    #ready.destroy()
                 else:
                     newQ()
             else:
@@ -210,10 +213,8 @@ def finish_edits():
                     centeredQ.config(text = 'You got {0}\n\n{1} Correct, {2} Incorrect'.format(str((correctans / (correctans + incorrectans)) * 100) + '%', correctans, incorrectans))
                     centeredQ.config(width = 20, height = 4)
                     time.sleep(0.1)
-                    #ready.destroy()
                 else:
                     newQ()
-
 
         centeredQ = tk.Label(ready, text = playData[questionplay[newx]][0]['Title'], relief = 'raised', background = 'dark slate gray', fg = 'ivory')
         centeredQ.place(relx = 0.5, y = 80, anchor = 'center')
@@ -241,7 +242,6 @@ def finish_edits():
         Ans3.place(x = 0, y = 310)
         Ans4.place(x = 250, y = 310)
 
-
 #Import Files
 def import_file():
     global windowTitle, new
@@ -253,8 +253,6 @@ def import_file():
         #WIP
     window.title('QuizCreator - ' + windowTitle)
     new.destroy()
-
-
 
 #Create New File
 def newfilecreation(item, item_2, root):
@@ -276,10 +274,9 @@ def newfilecreation(item, item_2, root):
     nameofFile = tk.Entry(root)
     nameofFile.place(relx = 0.5, rely = 0.5, anchor = 'center')
     labelEntry = tk.Label(root, text = 'Name of Quiz', relief = 'raised')
-    labelEntry.place(x = 155, y = 100)
+    labelEntry.place(x = 200, y = 60)
     done = tk.Button(root, text = 'Done', command = lambda: finish(nameofFile))
     done.place(x = 170, y = 170)
-
 
 #Buttons on Main
 AddWidget = tk.Button(window, text = u"\u2795", highlightbackground = 'sienna', command = create_widget)
@@ -291,7 +288,7 @@ Present.place(x = 222, y = 770.)
 #Import or Continue? First Window
 new = tk.Toplevel()
 new.title('Select Option')
-new.geometry('430x300+500+500')
+new.geometry('480x200+510+500')
 new.resizable(False, False)
 new.configure(background = 'sienna4')
 new.attributes("-topmost", True)
@@ -300,12 +297,12 @@ Import = tk.Button(new, text = 'Import File', command = import_file)
 Newfile = tk.Button(new, text = 'New File',  command = lambda: newfilecreation(Newfile, Import, new))
 Help = tk.Text(new, height = 3, borderwidth = 0, relief = 'raised', background = 'dark slate gray', cursor = 'hand2')
 Help.tag_configure('center', justify = 'center')
-Help.insert(1.0, 'For help, go to\nhttps://github.com/Rohan-Bansal/quiz-creator/wiki')
+Help.insert(1.0, 'For help, go to\nhttps://github.com/Rohan-Bansal/quiz-creator/wiki/Using-The-Creator')
 Help.tag_add("center", "1.0", "end")
 Help.configure(state="disabled")
 
 Help.place(relx = 0.5, anchor = 'n')
-Import.place(x = 100, y = 100)
-Newfile.place(x = 200, y = 100)
+Import.place(x = 140, y = 100)
+Newfile.place(x = 240, y = 100)
 
 window.mainloop()
