@@ -125,9 +125,12 @@ class Widget():
         edit.resizable(False, False)
         edit.configure(background = 'chocolate')
         edit.protocol("WM_DELETE_WINDOW", on_closing)
-
-        question_title = tk.Label(edit, text = Question_List[self.indexNum + 1].title(), relief = 'sunken', width = 50)
-        instructions = tk.Label(edit, background = 'dark slate gray', text = 'Once all answers have been added, select \na correct answer with the check marks beside them.', relief = 'groove', width = 50)
+        try:
+            question_title = tk.Label(edit, text = Question_List[self.indexNum + 1].title(), relief = 'sunken', width = 50)
+        except KeyError:
+            edit.destroy()
+            return
+        instructions = tk.Label(edit, background = 'dark slate gray', text = 'Once all answers have been added, select \na correct answer with the check marks beside them.\n[Only one answer can be selected]', relief = 'groove', width = 50)
         V1 = tk.StringVar()
         V2 = tk.StringVar()
         V3 = tk.StringVar()
