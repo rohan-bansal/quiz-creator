@@ -43,7 +43,17 @@ class Widget():
         self.questions = Q
         self.questions.append(name)
 
-    def initialize(self, index):
+    def initialize(self, index, imported):
+        if imported == False:
+            pass
+        elif imported == True:
+            self.indexNum = index
+            self.questions[self.indexNum] = tk.Button(window, text = '', command = lambda: self.reRoute(self.indexNum))
+            self.questions[self.indexNum].place(x = widgetPositions[0], y = widgetPositions[1])
+            self.questions[self.indexNum].config(width = 54)
+            self.fix_imports()
+            return
+
         self.indexNum = index
         self.questions[self.indexNum] = tk.Button(window, text = '', command = lambda: self.reRoute(self.indexNum))
         self.questions[self.indexNum].place(x = widgetPositions[0], y = widgetPositions[1])
@@ -148,10 +158,19 @@ class Widget():
 
         on_open()
 
+    def fix_imports(self):
+        with open(path + '/' + windowTitle + '.json', 'r') as fix:
+            importData = json.load(fix)
+            newname = 'Question_' + str(self.indexNum + 1)
+            for parse in importData[newname]:
+                Question_List[self.indexNum + 1] = parse['Title']
+                print(Question_List)
+                self.questions[self.indexNum].config(text = parse['Title'].title())
+
 # Initialize Class 
-def W_init(name):
+def W_init(name, did_import):
     global widgetPositions, itera
-    name.initialize(itera)
+    name.initialize(itera, did_import)
     widgetPositions[1] += 30
     itera += 1
 # Create Question Widgets
@@ -160,7 +179,7 @@ def create_widget():
     dynamicName = num2words(iter2).title()
     Questions_Two.append(dynamicName)
     Questions_Two[itera] = Widget(dynamicName, Questions)
-    W_init(Questions_Two[itera])
+    W_init(Questions_Two[itera], False)
     YforAdd += 30
     iter2 += 1
     AddWidget.place_configure(y = YforAdd)
@@ -169,7 +188,6 @@ def finish_edits():
     questionplay = []
     ready = tk.Toplevel() 
     newx = 0
-    timelimit = 5 #WIP
 
     ready.title('Play Quiz - ' + windowTitle)
     ready.geometry('500x500')
@@ -177,17 +195,13 @@ def finish_edits():
     ready.attributes("-topmost", True)
     ready.configure(background = 'gray20')
 
-    timeset = tk.Label(ready, text = str(timelimit), relief = 'raised', background = 'firebrick', fg = 'white')
-    timeset.config(width = 2, height = 2)
-    timeset.place(x = 460, y = 20)
-
     with open(path + '/' + windowTitle + '.json', 'r') as toPlay:
         playData = json.load(toPlay)
         for x in range(len(playData) - 1):
             questionplay.append('Question_' + str(x + 1))
         random.shuffle(questionplay)
 
-        def checkifCorrect(ansNum): #WIP
+        def checkifCorrect(ansNum):
             global correctans, incorrectans
             if ansNum == int(playData[questionplay[newx]][0]['Correct']):
                 correctans += 1
@@ -240,17 +254,24 @@ def finish_edits():
         Ans1.place(x = 0, y = 200)
         Ans2.place(x = 250, y = 200)
         Ans3.place(x = 0, y = 310)
-        Ans4.place(x = 250, y = 310)
+        Ans4.place(x = 250, y = 310)            
 
 #Import Files
 def import_file():
     global windowTitle, new
+    global Questions_Two, AddWidget, YforAdd, iter2
     name = filedialog.askopenfilename(initialdir = path, title = 'Select File', filetypes = (("text files","*.json"),("all files","*.*")))
     with open(name, 'r+') as newfile:
         newdata = json.load(newfile)
         windowTitle = newdata['NameOfFile'][0]
-        #find way to create widget for Qs in JSON, and modify contents of widgets
-        #WIP
+        for a in range(len(newdata) - 1):
+            dynamicName = num2words(iter2).title()
+            Questions_Two.append(dynamicName)
+            Questions_Two[itera] = Widget(dynamicName, Questions)
+            W_init(Questions_Two[itera], True)
+            YforAdd += 30
+            iter2 += 1
+            AddWidget.place_configure(y = YforAdd)
     window.title('QuizCreator - ' + windowTitle)
     new.destroy()
 
@@ -288,7 +309,7 @@ Present.place(x = 222, y = 770.)
 #Import or Continue? First Window
 new = tk.Toplevel()
 new.title('Select Option')
-new.geometry('480x200+510+500')
+new.geometry('480x200+510+300')
 new.resizable(False, False)
 new.configure(background = 'sienna4')
 new.attributes("-topmost", True)
