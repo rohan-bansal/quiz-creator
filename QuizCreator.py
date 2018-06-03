@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import messagebox
 import os, json, sys, random, time
+from sys import platform
 
 window = tk.Tk()
 window.geometry('500x800+500+500')
@@ -290,7 +291,11 @@ def newfilecreation(item, item_2, root):
         global windowTitle, window, data
         windowTitle = entry.get().title()
         window.title('QuizCreator - ' + windowTitle)
-        os.mknod(path + '/' + windowTitle + '.json')
+        try:
+            os.mknod(path + '/' + windowTitle + '.json')
+        except AttributeError:
+            f = open(path + '/' + windowTitle + '.json', 'w+')
+            f.close()
         with open(path + '/' + windowTitle + '.json', 'w') as name:
             data['NameOfFile'] = [windowTitle]
             json.dump(data, name)
