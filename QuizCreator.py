@@ -60,7 +60,7 @@ class Widget():
 
         self.indexNum = index
         self.questions[self.indexNum] = tk.Button(window, text = '', command = lambda: self.reRoute(self.indexNum))
-        self.questions[self.indexNum].place(x = widgetPositions[0], y = widgetPositions[1])
+        self.questions[self.indexNum].place(relx = 0.04, y = widgetPositions[1])
         self.questions[self.indexNum].config(width = 54)
 
         def destroy(event, var):
@@ -166,9 +166,11 @@ class Widget():
         on_open()
 
     def fix_imports(self):
+        global questionName
         with open(path + '/' + windowTitle + '.json', 'r') as fix:
             importData = json.load(fix)
             newname = 'Question_' + str(self.indexNum + 1)
+            questionName = importData[newname][0]['Title']
             for parse in importData[newname]:
                 Question_List[self.indexNum + 1] = parse['Title']
                 print(Question_List)
@@ -265,11 +267,12 @@ def finish_edits():
 
 #Import Files
 def import_file():
-    global windowTitle, new
+    global windowTitle, new, data, questionName
     global Questions_Two, AddWidget, YforAdd, iter2
     name = filedialog.askopenfilename(initialdir = path, title = 'Select File', filetypes = (("text files","*.json"),("all files","*.*")))
     with open(name, 'r+') as newfile:
         newdata = json.load(newfile)
+        data = newdata
         windowTitle = newdata['NameOfFile'][0]
         for a in range(len(newdata) - 1):
             dynamicName = num2words(iter2).title()
