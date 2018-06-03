@@ -297,7 +297,7 @@ def newfilecreation(item, item_2, root):
     labelEntry = tk.Label(root, text = 'Name of Quiz', relief = 'raised')
     labelEntry.place(x = 200, y = 60)
     done = tk.Button(root, text = 'Done', command = lambda: finish(nameofFile))
-    done.place(x = 170, y = 170)
+    done.place(x = 212, y = 170)
 
 #Buttons on Main
 AddWidget = tk.Button(window, text = u"\u2795", highlightbackground = 'sienna', command = create_widget)
