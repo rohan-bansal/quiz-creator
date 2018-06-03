@@ -17,8 +17,10 @@
 
 - Import existing quizzes
 
-# Notice
+# Notices
 
 - Since the module `num2words` is needed for the program to work, if the computer does not have it installed, the program will install it for you. 
+- Different operating systems will have different dependencies; Mac OS may not let the program create a new file if the user is not the administrator.
+
 
 ### *Coded by Rohan Bansal*
