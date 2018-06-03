@@ -146,7 +146,7 @@ class Widget():
         A4 = tk.Button(edit, text = u'\u2713', width = 1, command = lambda: modify(4, A4))
 
         question_title.place(relx=0.5, anchor = 'n')
-        instructions.place(x = 0, y = 40)
+        instructions.place(relx = 0, y = 40)
         Q1.place(x = 110, y = 100)
         Q2.place(x = 210, y = 100)
         Q3.place(x = 110, y = 130)
@@ -306,9 +306,9 @@ def newfilecreation(item, item_2, root):
     nameofFile = tk.Entry(root)
     nameofFile.place(relx = 0.5, rely = 0.5, anchor = 'center')
     labelEntry = tk.Label(root, text = 'Name of Quiz', relief = 'raised')
-    labelEntry.place(x = 200, y = 60)
+    labelEntry.place(x = 220, y = 70)
     done = tk.Button(root, text = 'Done', command = lambda: finish(nameofFile))
-    done.place(x = 212, y = 170)
+    done.place(x = 230, y = 170)
 
 #Buttons on Main
 AddWidget = tk.Button(window, text = u"\u2795", highlightbackground = 'sienna', command = create_widget)
@@ -320,21 +320,21 @@ Present.place(x = 222, y = 770.)
 #Import or Continue? First Window
 new = tk.Toplevel()
 new.title('Select Option')
-new.geometry('480x200+510+300')
+new.geometry('520x200+510+300')
 new.resizable(False, False)
 new.configure(background = 'sienna4')
 new.attributes("-topmost", True)
 
 Import = tk.Button(new, text = 'Import File', command = import_file)
 Newfile = tk.Button(new, text = 'New File',  command = lambda: newfilecreation(Newfile, Import, new))
-Help = tk.Text(new, height = 3, borderwidth = 0, relief = 'raised', background = 'dark slate gray', cursor = 'hand2')
+Help = tk.Text(new, height = 4, borderwidth = 0, relief = 'raised', background = 'dark slate gray', cursor = 'hand2')
 Help.tag_configure('center', justify = 'center')
-Help.insert(1.0, 'For help, go to\nhttps://github.com/Rohan-Bansal/quiz-creator/wiki/Using-The-Creator')
+Help.insert(1.0, 'For help, go to\nhttps://github.com/Rohan-Bansal/quiz-creator/wiki/Using-The-Creator\nNOTE: For different Operating Systems, the program may look different.')
 Help.tag_add("center", "1.0", "end")
 Help.configure(state="disabled")
 
 Help.place(relx = 0.5, anchor = 'n')
-Import.place(x = 140, y = 100)
-Newfile.place(x = 240, y = 100)
+Import.place(x = 160, y = 100)
+Newfile.place(x = 260, y = 100)
 
 window.mainloop()
