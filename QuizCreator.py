@@ -1,20 +1,23 @@
 import tkinter as tk
 from tkinter import filedialog
+from tkinter import messagebox
 import os, json, sys, random, time
-
-try:
-    from num2words import num2words
-except ImportError:
-    print('\nDependencies not installed, installing them now...\n')
-    import subprocess
-    subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--user', 'num2words==0.5.6'])
-    from num2words import num2words
 
 window = tk.Tk()
 window.geometry('500x800+500+500')
 window.title('QuizCreator')
 window.resizable(False, False)
 window.configure(background = 'olive drab')
+
+try:
+    from num2words import num2words
+except ImportError:
+    if messagebox.askyesno('ImportFix', 'There are missing dependencies needed for the program to work (module "num2words"). Would you like the program to install them?') == True:    
+        import subprocess
+        subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--user', 'num2words==0.5.6'])
+        from num2words import num2words
+    else:
+        sys.exit()
 
 windowTitle = ''
 widgetPositions = [20, 20]
