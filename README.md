@@ -15,11 +15,11 @@
 
 **WIP Features**
 
-- Import existing quizzes
+- NONE
 
 # Notices
 
-- Since the module `num2words` is needed for the program to work, if the computer does not have it installed, the program will install it for you. 
+- Since the module `num2words` is needed for the program to work, if the computer does not have it installed, the program will install it for you ([y/n] message box)
 - Different operating systems will have different dependencies; Mac OS may not let the program create a new file if the user is not the administrator.
 
 
