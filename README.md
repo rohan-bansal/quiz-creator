@@ -4,6 +4,8 @@
 
 *Progress Report:* **100% complete**
 
+Download the latest release here: https://github.com/Rohan-Bansal/quiz-creator/releases/tag/v2.0
+
 # Features
 
 - Create new quizzes
